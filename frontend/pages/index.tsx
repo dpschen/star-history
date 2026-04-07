@@ -42,10 +42,6 @@ const Index: NextPage = () => {
                 <Header />
                 <div className="w-full h-auto grow flex flex-row justify-center">
                     <div className="w-full px-4 h-auto grow lg:grid lg:grid-cols-[1fr_288px] xl:grid-cols-[240px_1fr_288px] lg:gap-8 xl:gap-24">
-                        <div className="hidden xl:block">
-                            <LeftSidebar />
-                        </div>
-
                         <div className="w-full flex flex-col justify-start">
                             <RepoInputer isChartVisible={isChartVisible} setChartVisibility={setChartVisibility} />
                             {isChartVisible && <StarChartViewer />}
@@ -53,6 +49,10 @@ const Index: NextPage = () => {
 
                         <div className="hidden lg:block">
                             <RightSidebar />
+                        </div>
+
+                        <div className="lg:hidden xl:block xl:col-start-1 xl:row-start-1">
+                            <LeftSidebar />
                         </div>
                     </div>
                 </div>

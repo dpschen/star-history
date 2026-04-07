@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import Header from "../components/header"
 import Footer from "../components/footer"
 import LeftSidebar from "../components/LeftSidebar"
@@ -11,6 +11,26 @@ import { SITE_URL } from "../helpers/consts"
 
 const Index: NextPage = () => {
     const [isChartVisible, setChartVisibility] = useState(false) // Start with false since chart is not visible by default
+    const [layout, setLayout] = useState<"desktop" | "tablet" | "mobile" | null>(null)
+
+    useEffect(() => {
+        const xlMq = window.matchMedia("(min-width: 1280px)")
+        const lgMq = window.matchMedia("(min-width: 1024px)")
+
+        const update = () => {
+            if (xlMq.matches) setLayout("desktop")
+            else if (lgMq.matches) setLayout("tablet")
+            else setLayout("mobile")
+        }
+
+        update()
+        xlMq.addEventListener("change", update)
+        lgMq.addEventListener("change", update)
+        return () => {
+            xlMq.removeEventListener("change", update)
+            lgMq.removeEventListener("change", update)
+        }
+    }, [])
 
     const metadata = {
 		title:       "GitHub Star History",
@@ -42,6 +62,8 @@ const Index: NextPage = () => {
                 <Header />
                 <div className="w-full h-auto grow flex flex-row justify-center">
                     <div className="w-full px-4 h-auto grow lg:grid lg:grid-cols-[1fr_288px] xl:grid-cols-[240px_1fr_288px] lg:gap-8 xl:gap-24">
+                        {layout === "desktop" && <LeftSidebar variant="sidebar" />}
+
                         <div className="w-full flex flex-col justify-start">
                             <RepoInputer isChartVisible={isChartVisible} setChartVisibility={setChartVisibility} />
                             {isChartVisible && <StarChartViewer />}
@@ -51,9 +73,7 @@ const Index: NextPage = () => {
                             <RightSidebar />
                         </div>
 
-                        <div className="lg:hidden xl:block xl:col-start-1 xl:row-start-1">
-                            <LeftSidebar />
-                        </div>
+                        {layout === "mobile" && <LeftSidebar variant="inline" />}
                     </div>
                 </div>
 

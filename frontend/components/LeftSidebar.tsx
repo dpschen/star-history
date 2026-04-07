@@ -18,7 +18,11 @@ const tabs: { key: Tab; label: string }[] = [
     { key: "pyramid", label: "Pyramid" },
 ]
 
-const LeftSidebar: React.FC = () => {
+interface Props {
+    variant?: "sidebar" | "inline"
+}
+
+const LeftSidebar: React.FC<Props> = ({ variant = "sidebar" }) => {
     const [activeTab, setActiveTab] = useState<Tab>(weeklyRanking.repos.length > 0 ? "weekly" : "alltime")
 
     const items = activeTab === "weekly"
@@ -29,9 +33,8 @@ const LeftSidebar: React.FC = () => {
         : activeTab === "alltime" ? leaderboard.updated_at
         : starCount.updated_at
 
-    return (
-        <div className="sidebar-sticky">
-            <div className="pt-4">
+    const content = (
+        <div className="pt-4">
                 <div className="flex justify-center gap-4 mb-3">
                     {tabs.map((tab) => (
                         <button
@@ -134,8 +137,12 @@ const LeftSidebar: React.FC = () => {
                     Updated {updatedAt}
                 </p>
             </div>
-        </div>
     )
+
+    if (variant === "sidebar") {
+        return <div className="sidebar-sticky">{content}</div>
+    }
+    return content
 }
 
 export default LeftSidebar

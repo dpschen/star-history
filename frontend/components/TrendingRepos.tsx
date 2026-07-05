@@ -22,7 +22,7 @@ interface Props {
     variant?: "sidebar" | "inline"
 }
 
-const LeftSidebar: React.FC<Props> = ({ variant = "sidebar" }) => {
+const TrendingRepos: React.FC<Props> = ({ variant = "sidebar" }) => {
     const [activeTab, setActiveTab] = useState<Tab>(weeklyRanking.repos.length > 0 ? "weekly" : "alltime")
 
     const items = activeTab === "weekly"
@@ -145,4 +145,4 @@ const LeftSidebar: React.FC<Props> = ({ variant = "sidebar" }) => {
     return content
 }
 
-export default LeftSidebar
+export default TrendingRepos
